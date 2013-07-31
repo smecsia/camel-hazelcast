@@ -1,4 +1,4 @@
-package me.smecsia.common.hazelcast;
+package me.smecsia.common.camel;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.OperationTimeoutException;
