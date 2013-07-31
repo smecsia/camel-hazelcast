@@ -37,7 +37,7 @@ public class HazelcastAggregationRepository extends ServiceSupport implements Ag
     @Override
     public Exchange add(CamelContext camelContext, String key, Exchange exchange) {
         try {
-            logger.info("Adding exchange to '" + key + "'. putAndUnlock...");
+            logger.debug("Adding exchange to '" + key + "'. putAndUnlock...");
             DefaultExchangeHolder holder = DefaultExchangeHolder.marshal(exchange);
             map.putAndUnlock(key, holder);
             return toExchange(camelContext, holder);
@@ -50,7 +50,7 @@ public class HazelcastAggregationRepository extends ServiceSupport implements Ag
     @Override
     public Exchange get(CamelContext camelContext, String key) {
         try {
-            logger.info("Getting '" + key + "' from context. tryLockAndGet...");
+            logger.debug("Getting '" + key + "' from context. tryLockAndGet...");
             return toExchange(camelContext, map.tryLockAndGet(key, WAIT_FOR_LOCK_SEC, TimeUnit.SECONDS));
         } catch (Exception e) {
             logger.error("Failed to get the exchange!", e);
@@ -73,7 +73,7 @@ public class HazelcastAggregationRepository extends ServiceSupport implements Ag
 
     public void lock(String key) {
         try {
-            logger.info("Locking '" + key + "'...");
+            logger.debug("Locking '" + key + "'...");
             map.tryLock(key, WAIT_FOR_LOCK_SEC, TimeUnit.SECONDS);
         } catch (Exception e) {
             logger.error("Failed to lock the key", e);
@@ -82,7 +82,7 @@ public class HazelcastAggregationRepository extends ServiceSupport implements Ag
 
     public void unlock(String key) {
         try {
-            logger.info("Unlocking '" + key + "'...");
+            logger.debug("Unlocking '" + key + "'...");
             map.unlock(key);
         } catch (Exception e) {
             logger.error("Failed to unlock the key!", e);
@@ -92,7 +92,7 @@ public class HazelcastAggregationRepository extends ServiceSupport implements Ag
     @Override
     public void remove(CamelContext camelContext, String key, Exchange exchange) {
         try {
-            logger.info("Removing '" + key + "' tryRemove...");
+            logger.debug("Removing '" + key + "' tryRemove...");
             map.tryRemove(key, WAIT_FOR_LOCK_SEC, TimeUnit.SECONDS);
             map.unlock(key);
         } catch (Exception e) {
