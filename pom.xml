@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.smecsia.common</groupId>
-    <artifactId>hazelcast-ext</artifactId>
+    <artifactId>camel-hazelcast</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
